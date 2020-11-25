@@ -13,7 +13,7 @@ from os.path import isfile, join
 import re
 import random
 
-NUM_POSTS = 200
+NUM_POSTS = 100
 
 class PostFilter:
     def __init__(self, input_dir, dest_dir):
@@ -60,28 +60,48 @@ class PostFilter:
                 self.write_output_file(output_file, records)
                 self.filtered_files.append(output_file)
 
-    def generate_csvs_for_open_coding(self):
-        records = []
-        for file_name in self.filtered_files:
-            with open(file_name) as f:
-                for json_obj in f:
-                    try:
-                        records.append(json.loads(json_obj))
-                    except ValueError:
-                        continue
+    def split_from_file(self, file_name, records):
+        with open(file_name) as f:
+            for json_obj in f:
+                try:
+                    records.append(json.loads(json_obj))
+                except ValueError:
+                    continue
+        return records
+        
 
+    def sample_from_collection(self, destination, records, csv_writer):
         filtered_entries_len = len(records)
         entries_to_extract = random.sample(range(1, filtered_entries_len), NUM_POSTS)
-        output_file = join("./data/sampled/", "sampled.csv")
+        
+        for entry in entries_to_extract:
+            line = records[entry]
+            name = line.get("data", {}).get("name", "")
+            title = line.get("data", {}).get("title", "")
+            res = [name, title, ""]
+            csv_writer.writerow(res)
+
+
+
+    def generate_csvs_for_open_coding(self):
+        politics_records = []
+        conservatives_records = []
+        records = []
+        for file_name in self.filtered_files:
+            if file_name.endswith('politics.json'):
+                politics_records = self.split_from_file(file_name, politics_records)
+            else:
+                conservatives_records = self.split_from_file(file_name, conservatives_records)
+
+        output_file = join("./data/sampled2/", "sampled.csv")
         with open(output_file, 'w+') as destination:
             csv_writer = csv.writer(destination, delimiter=',')
             csv_writer.writerow(['name', 'title', 'coding'])
-            for entry in entries_to_extract:
+            self.sample_from_collection(destination, politics_records, csv_writer)
+            self.sample_from_collection(destination, conservatives_records, csv_writer)
 
-                line = records[entry]
-                name = line.get("data", {}).get("name", "")
-                title = line.get("data", {}).get("title", "")
-                res = [name, title, ""]
-                csv_writer.writerow(res)
 
+        
+        
+            
 

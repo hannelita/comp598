@@ -27,7 +27,7 @@ def main():
     
     filter_posts = PostFilter(INPUT_DIR, DEST)
     filter_posts.sanitize()
-    # filter_posts.generate_csvs_for_open_coding()
+    filter_posts.generate_csvs_for_open_coding()
     
     
 
