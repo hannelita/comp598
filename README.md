@@ -18,6 +18,11 @@ To filter the content, run `python scripts/filter_mentions.py -o ./data/filtered
 On `scripts/filter_mentions.py`, if you uncomment line #30, you'll get the sample files generated for open coding. 
 
 
+To remove duplicates, run 
+`python scripts/prepare_filtred_mentions.py -o ./data/unique -inputdir ./data/filtered`. The default `inputdir` is `./data/filtered`
+
+To generate the final version for labelling, ` python scripts/create_csv_labelling.py -o ./data/labelling/`. The default `inputdir` is `./data/unique/`
+
 Valid entries
 ```
 Trump won
