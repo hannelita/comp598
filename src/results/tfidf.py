@@ -14,16 +14,30 @@ import re
 import random
 
 
+class Category(Enum):
+    TRANSITION_AND_NEW_GOVERNMENT = 1
+    INTERNAL_AFFAIRS = 2
+    FOREIGN_AFFAIRS = 3
+    ELECTION_RESULTS_AND_RECOUNTS = 4
+    ELECTION_LEGAL_AFFAIRS = 5
+    NA = 6
+
+
 class TfIdf:
     def __init__(self, input_dir):
         self.dfs = []
         self.get_dfs_from(input_dir)
+        self.df = pd.concat(self.dfs)
         
     def get_dfs_from(self, input_dir):
         files = [(join(input_dir, f)) for f in listdir(input_dir)]
         df = pd.read_csv('./data/labelling/label_slice_0.csv')
         self.dfs.append(df)
+        df = pd.read_csv('./data/labelling/label_slice_2.csv')
+        self.dfs.append(df)
         print(df.info())
+
+
 
     # def get_dfs_from(self, input_dir):
     #     files = [(join(input_dir, f)) for f in listdir(input_dir)]
