@@ -45,7 +45,7 @@ class TfIdf:
     #     for f in files:
     #         df = pd.read_csv(f)
     #         self.dfs.append(df)
-    #         print(df.info())
+            
 
 
     def sanitize_title(self, title_list):
@@ -70,8 +70,10 @@ class TfIdf:
 
     def calculate(self, methodc):
             wdict = self.compute_words_dict_per_cateogy()
-            if (methodc is 1):
-                self.compute_local(wdict)
+            res = {}
+            if (methodc == 1):
+                res = self.compute_local(wdict)
+            return res
 
     def compute_words_dict_per_cateogy(self):
         # df1 = self.df[self.df.isna().any(axis=1)]
@@ -96,7 +98,7 @@ class TfIdf:
                     ranked_words[x] = frequency[x]
             sorted_ranked = Counter(ranked_words)
             sorted_ranked = dict(sorted_ranked)
-            local_count[Category(i)] = sorted_ranked
+            local_count[Category(i).name] = sorted_ranked
         return local_count 
 
     def compute_local(self, wcount):
@@ -123,7 +125,6 @@ class TfIdf:
             res_idf = dict(Counter(tmp).most_common(10))
             # res[cat] = list(res_idf.keys())
             res[cat] = res_idf
-        print(res)
         return res
 
 

@@ -12,7 +12,7 @@ import pprint
 from src.results.tfidf import TfIdf
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-o', help='Output directory name (ends with / )')
+parser.add_argument('-o', help='Output file name')
 parser.add_argument('-inputdir', help='Input directory to calculate TF-IDF', required=False, default='./data/labelling/')
 
 args = parser.parse_args()
@@ -20,11 +20,16 @@ args = parser.parse_args()
 DEST = '{}'.format(args.o)
 INPUT_DIR = '{}'.format(args.inputdir)
 
+def generate_json_output(res):
+    with open(DEST, 'w+') as fp:
+        json.dump(res, fp)
+
 def main():
     print(f'Input files from {INPUT_DIR}')
     
     tfidf = TfIdf(INPUT_DIR)
-    tfidf.calculate(1)
+    res = tfidf.calculate(1)
+    generate_json_output(res)
     
     
 

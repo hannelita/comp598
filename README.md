@@ -47,3 +47,19 @@ Invalid entries
 9trump9
 9biden9
 ```
+
+Categories and Enumeration
+```
+1 transition_and_new_government
+2 internal_affairs
+3 foreign_affairs
+4 election_results_and_recounts
+5 election_legal_affairs
+6 NA
+```
+
+
+For TF-IDF
+```
+python scripts/compute_tf_idf.py -o ./data/results/out1.json
+```
