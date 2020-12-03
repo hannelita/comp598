@@ -24,7 +24,7 @@ def main():
     print(f'Input files from {INPUT_DIR}')
     
     tfidf = TfIdf(INPUT_DIR)
-    tfidf.calculate()
+    tfidf.calculate(1)
     
     
 
