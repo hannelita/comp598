@@ -38,7 +38,7 @@ def autolabel(rects, ax):
                     ha='center', va='bottom')
 
 
-def plot_chart_by_category_candidates(category, std_tf_idf, trump, biden, words, fname, classifier):
+def plot_chart_by_category_candidates(category, std_tf_idf, trump, biden, words, fname, classifier, l1, l2):
     n_groups = 10
 
     # create plot
@@ -62,12 +62,12 @@ def plot_chart_by_category_candidates(category, std_tf_idf, trump, biden, words,
     rects2 = ax.bar(r2, trump, bar_width,
     alpha=opacity,
     color='r',
-    label='Trump')
+    label=l1)
 
     rects3 = ax.bar(r3, biden, bar_width,
     alpha=opacity,
     color='b',
-    label='Biden')
+    label=l2)
 
     ax.autoscale(enable=True, axis="both", tight=False)
 
@@ -106,7 +106,7 @@ def main():
         trump = [float(i) for i in list(map("{:.2f}".format, (list(trump_local.get(key, {}).values())) ))]
         words = list(default_local.get(key, {}).keys())
         fname = str(key) + "_candidates" + "_method_1_local"
-        plot_chart_by_category_candidates(key, std, trump, biden, words, fname, "candidate")
+        plot_chart_by_category_candidates(key, std, trump, biden, words, fname, "candidate", "Trump", "Biden")
     
     politics_local = plotter.compute('./data/results/out_local1.json', 1, subreddit='politics')
     conservative_local = plotter.compute('./data/results/out_local1.json', 1, subreddit='Conservative')
@@ -117,7 +117,7 @@ def main():
         conservative = [float(i) for i in list(map("{:.2f}".format, (list(conservative_local.get(key, {}).values())) ))]
         words = list(default_local.get(key, {}).keys())
         fname = str(key) + "_subreddit" + "_method_1_local"
-        plot_chart_by_category_candidates(key, std, conservative, politics, words, fname, "subreddit")
+        plot_chart_by_category_candidates(key, std, conservative, politics, words, fname, "subreddit", "Conservative", "politics")
     
 
     default_global = {}
@@ -138,7 +138,7 @@ def main():
         trump = [float(i) for i in list(map("{:.2f}".format, (list(trump_global.get(key, {}).values())) ))]
         words = list(default_global.get(key, {}).keys())
         fname = str(key) + "_candidates" + "_method_2_global"
-        plot_chart_by_category_candidates(key, std, trump, biden, words, fname, "candidate")
+        plot_chart_by_category_candidates(key, std, trump, biden, words, fname, "candidate", "Trump", "Biden")
 
     politics_global = plotter.compute('./data/results/out_global1.json', 2, subreddit='politics')
     conservative_global = plotter.compute('./data/results/out_global1.json', 2, subreddit='Conservative')
@@ -149,7 +149,7 @@ def main():
         conservative = [float(i) for i in list(map("{:.2f}".format, (list(conservative_global.get(key, {}).values())) ))]
         words = list(default_global.get(key, {}).keys())
         fname = str(key) + "_subreddit" + "_method_2_global"
-        plot_chart_by_category_candidates(key, std, conservative, politics, words, fname, "subreddit")
+        plot_chart_by_category_candidates(key, std, conservative, politics, words, fname, "subreddit", "Conservative", "politics")
     
     
     
