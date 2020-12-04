@@ -66,3 +66,6 @@ python scripts/compute_tf_idf.py -o ./data/results/out1.json
 
 To generate a CSV for the 2000 posts: 
 `python scripts/save_raw.py -o ./data/raw_dataset_csv/raw.csv`
+
+To generate all the charts, use:
+`python scripts/compute_vectors_plot.py -o ./data/plots`
