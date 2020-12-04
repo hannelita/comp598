@@ -38,7 +38,7 @@ def autolabel(rects, ax):
                     ha='center', va='bottom')
 
 
-def plot_chart_by_category_candidates(category, std_tf_idf, trump, biden, words):
+def plot_chart_by_category_candidates(category, std_tf_idf, trump, biden, words, fname):
     n_groups = 10
 
     # create plot
@@ -82,7 +82,8 @@ def plot_chart_by_category_candidates(category, std_tf_idf, trump, biden, words)
     autolabel(rects3, ax)
 
     fig.tight_layout()
-    plt.show() 
+    # plt.show() 
+    plt.savefig(f'./data/charts/{fname}.png')
     
 
 def main():
@@ -97,21 +98,26 @@ def main():
         default_local[key] = most_com
     biden_local = plotter.compute('./data/results/out_local1.json', 1, candidate='m_biden')
     trump_local = plotter.compute('./data/results/out_local1.json', 1, candidate='m_trump')
-    
-    
+      
     dlk = list(default_local.keys())
-
     for key in dlk:
         std =  [float(i) for i in list(map("{:.2f}".format, (list(default_local.get(key, {}).values()))))]
         biden = [float(i) for i in list(map("{:.2f}".format, (list(biden_local.get(key, {}).values())) ))]
         trump = [float(i) for i in list(map("{:.2f}".format, (list(trump_local.get(key, {}).values())) ))]
         words = list(default_local.get(key, {}).keys())
-
-        plot_chart_by_category_candidates(key, std, trump, biden, words)
+        fname = str(key) + "_candidates" + "_method_1_local"
+        plot_chart_by_category_candidates(key, std, trump, biden, words, fname)
     
     politics_local = plotter.compute('./data/results/out_local1.json', 1, subreddit='politics')
     conservative_local = plotter.compute('./data/results/out_local1.json', 1, subreddit='Conservative')
 
+    for key in dlk:
+        std =  [float(i) for i in list(map("{:.2f}".format, (list(default_local.get(key, {}).values()))))]
+        politics = [float(i) for i in list(map("{:.2f}".format, (list(politics_local.get(key, {}).values())) ))]
+        conservative = [float(i) for i in list(map("{:.2f}".format, (list(conservative_local.get(key, {}).values())) ))]
+        words = list(default_local.get(key, {}).keys())
+        fname = str(key) + "_subreddit" + "_method_1_local"
+        plot_chart_by_category_candidates(key, std, conservative, politics, words, fname)
     
 
     default_global = {}
@@ -120,10 +126,30 @@ def main():
     for key in default_global.keys():
         most_com = dict(Counter(default_global[key]).most_common(10))
         default_global[key] = most_com
+
+    default_global.pop('OTHER', None)
     biden_global = plotter.compute('./data/results/out_global1.json', 2, candidate='m_biden')
     trump_global = plotter.compute('./data/results/out_global1.json', 2, candidate='m_trump')
+
+    dlk = list(default_global.keys())
+    for key in dlk:
+        std =  [float(i) for i in list(map("{:.2f}".format, (list(default_global.get(key, {}).values()))))]
+        biden = [float(i) for i in list(map("{:.2f}".format, (list(biden_global.get(key, {}).values())) ))]
+        trump = [float(i) for i in list(map("{:.2f}".format, (list(trump_global.get(key, {}).values())) ))]
+        words = list(default_global.get(key, {}).keys())
+        fname = str(key) + "_candidates" + "_method_2_global"
+        plot_chart_by_category_candidates(key, std, trump, biden, words, fname)
+
     politics_global = plotter.compute('./data/results/out_global1.json', 2, subreddit='politics')
     conservative_global = plotter.compute('./data/results/out_global1.json', 2, subreddit='Conservative')
+
+    for key in dlk:
+        std =  [float(i) for i in list(map("{:.2f}".format, (list(default_global.get(key, {}).values()))))]
+        politics = [float(i) for i in list(map("{:.2f}".format, (list(politics_global.get(key, {}).values())) ))]
+        conservative = [float(i) for i in list(map("{:.2f}".format, (list(conservative_global.get(key, {}).values())) ))]
+        words = list(default_global.get(key, {}).keys())
+        fname = str(key) + "_subreddit" + "_method_2_global"
+        plot_chart_by_category_candidates(key, std, conservative, politics, words, fname)
     
     
     
