@@ -47,3 +47,25 @@ Invalid entries
 9trump9
 9biden9
 ```
+
+Categories and Enumeration
+```
+1 transition_and_new_government
+2 internal_affairs
+3 foreign_affairs
+4 election_results_and_recounts
+5 election_legal_affairs
+6 NA
+```
+
+
+For TF-IDF
+```
+python scripts/compute_tf_idf.py -o ./data/results/out1.json
+```
+
+To generate a CSV for the 2000 posts: 
+`python scripts/save_raw.py -o ./data/raw_dataset_csv/raw.csv`
+
+To generate all the charts, use:
+`python scripts/compute_vectors_plot.py -o ./data/plots`

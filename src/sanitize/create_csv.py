@@ -17,6 +17,7 @@ NUM_FILES = 3
 
 class CsvLabelling:
     def __init__(self, input_dir, dest_dir):
+        self.input_dir = input_dir
         self.politics_files = []
         self.conservative_files = []
         self.get_files_from(input_dir)
@@ -97,7 +98,7 @@ class CsvLabelling:
             
             r.extend(c)
             file_str = "label_slice_" + str(idx) + ".csv"
-            output_file = join("./data/labelling/", file_str)
+            output_file = join(self.dest_dir, file_str)
             with open(output_file, 'w+') as destination:
                 csv_writer = csv.writer(destination, delimiter=',')
                 csv_writer.writerow(['name', 'subreddit', 'm_trump', 'm_biden', 'title', 'coding'])
