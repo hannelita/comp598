@@ -74,12 +74,13 @@ def plot_chart_by_category_candidates(category, std_tf_idf, trump, biden, words,
     ax.set_ylabel('TF-IDF', fontsize=18)
     ax.set_title(f'TF-IDF by {classifier} for category {category}', fontsize=22)
     ax.set_xticks(r1)
+    # ax.set_yticklabels(fontsize=18)
     ax.set_xticklabels(words, Rotation=90, fontsize=18)
     ax.legend(fontsize=18)
 
-    autolabel(rects1, ax)
-    autolabel(rects2, ax)
-    autolabel(rects3, ax)
+    # autolabel(rects1, ax)
+    # autolabel(rects2, ax)
+    # autolabel(rects3, ax)
 
     fig.tight_layout()
     # plt.show() 
